@@ -24,9 +24,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     builder.reveal_sent(&request.without_data())?;
     // Reveal the request target.
     builder.reveal_sent(&request.request.target)?;
-    // Reveal all headers except the value of the User-Agent header.
+    // Reveal all headers except the value of the User-Agent and X-Api-Key headers.
     for header in &request.headers {
-        if !header.name.as_str().eq_ignore_ascii_case("User-Agent") {
+        if !header.name.as_str().eq_ignore_ascii_case("User-Agent") 
+            && !header.name.as_str().eq_ignore_ascii_case("X-Api-Key") {
             builder.reveal_sent(header)?;
         } else {
             builder.reveal_sent(&header.without_value())?;

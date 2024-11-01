@@ -14,8 +14,9 @@ use tlsn_formats::http::{DefaultHttpCommitter, HttpCommit, HttpTranscript};
 use tlsn_prover::{Prover, ProverConfig};
 
 // Setting of the application server
-const SERVER_DOMAIN: &str = "example.com";
+const SERVER_DOMAIN: &str = "api.api-ninjas.com";
 const USER_AGENT: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
+const API_KEY: &str = "VvDcFP6aBRMP2X1f2AN2Yg==8PJM9kuNVHj55MjS";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -65,7 +66,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Build a simple HTTP request with common headers
     let request = Request::builder()
-        .uri("/")
+        .uri("/v1/interestrate?country=United%20Kingdom")
         .header("Host", SERVER_DOMAIN)
         .header("Accept", "*/*")
         // Using "identity" instructs the Server not to use compression for its HTTP response.
@@ -73,6 +74,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .header("Accept-Encoding", "identity")
         .header("Connection", "close")
         .header("User-Agent", USER_AGENT)
+        .header("X-Api-Key", API_KEY)
         .body(Empty::<Bytes>::new())?;
 
     println!("Starting an MPC TLS connection with the server");
